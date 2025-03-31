@@ -25,7 +25,15 @@ def read_root():
 
 @app.get("/config")
 def get_config():
-    return {"AIPROXY_TOKEN": AIPROXY_TOKEN}
+    try:
+        import os
+        token = os.getenv("AIPROXY_TOKEN")
+        if not token:
+            raise HTTPException(status_code=500, detail="AIPROXY_TOKEN is missing!")
+        return {"AIPROXY_TOKEN": token}
+    except Exception as e:
+        return {"error": str(e)}
+
 
 @app.post("/api/")
 async def process_question(
