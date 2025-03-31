@@ -23,6 +23,9 @@ app.add_middleware(
 def read_root():
     return {"message": "FastAPI is running!"}
 
+@app.get("/config")
+def get_config():
+    return {"AIPROXY_TOKEN": AIPROXY_TOKEN}
 
 @app.post("/api/")
 async def process_question(
